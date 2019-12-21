@@ -67,23 +67,23 @@ def utc_offset():
 
 def get_jwt(username, password):
     data = { "claims": "{'id_token':{'urn:telekom.com:all':null}}", "client_id": "10LIVESAM30000004901TSMAPP00000000000000", "grant_type": "password", "scope": "tsm offline_access", "username": username, "password": password }
-    response = urllib.request.urlopen(urllib.request.Request(oauth_url, urllib.parse.urlencode(data), {'Content-Type': 'application/json'})).read()
+    response = urllib.request.urlopen(urllib.request.Request(oauth_url, urllib.parse.urlencode(data).encode("utf-8"), {'Content-Type': 'application/json'})).read()
     jsonResult = json.loads(response)
 
     if 'access_token' in jsonResult:
-        response = urllib.request.urlopen(urllib.request.Request(jwt_url, json.dumps({"token": jsonResult['access_token']}), {'Content-Type': 'application/json'})).read()
+        response = urllib.request.urlopen(urllib.request.Request(jwt_url, json.dumps({"token": jsonResult['access_token']}).encode("utf-8"), {'Content-Type': 'application/json'})).read()
         jsonResult = json.loads(response)
         if 'status' in jsonResult and jsonResult['status'] == "success" and 'data' in jsonResult and 'token' in jsonResult['data']:
             return jsonResult['data']['token']
 
 def auth_media(jwt, videoid):
     try:
-        response = urllib.request.urlopen(urllib.request.Request(heartbeat_url + '/initialize', json.dumps({"media": videoid}), {'xauthorization': jwt, 'Content-Type': 'application/json'})).read()
+        response = urllib.request.urlopen(urllib.request.Request(heartbeat_url + '/initialize', json.dumps({"media": videoid}).encode("utf-8"), {'xauthorization': jwt, 'Content-Type': 'application/json'})).read()
     except urllib.error.HTTPError as error:
         response = error.read()
 
     try:
-        urllib.request.urlopen(urllib.request.Request(heartbeat_url + '/destroy', "", {'xauthorization': jwt, 'Content-Type': 'application/json'})).read()
+        urllib.request.urlopen(urllib.request.Request(heartbeat_url + '/destroy', "".encode("utf-8"), {'xauthorization': jwt, 'Content-Type': 'application/json'})).read()
     except urllib.error.HTTPError as e:
         pass
 
