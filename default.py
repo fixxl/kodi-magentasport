@@ -283,7 +283,9 @@ def geteventLane():
                         title = str(prettytime(scheduled_start)) + " Uhr: " + event['metadata']['description_bold']
 
             eventinfo = event['metadata']['description_bold'] + ' - ' + event['metadata']['description_regular']
-            li = xbmcgui.ListItem('[B]' + title + '[/B] (' + eventinfo + ')', iconImage=base_image_url + event['metadata']['images']['editorial'])
+            # li = xbmcgui.ListItem('[B]' + title + '[/B] (' + eventinfo + ')', iconImage=base_image_url + event['metadata']['images']['editorial'])
+            li = xbmcgui.ListItem('[B]' + title + '[/B] (' + eventinfo + ')')
+            li.setArt({'icon': base_image_url + event['metadata']['images']['editorial']})
             li.setInfo('video', {'plot': prettydate(scheduled_start)})
             li.setProperty('fanart_image', base_image_url + event['metadata']['images']['editorial'])
 
@@ -323,7 +325,9 @@ def getevent():
                     for eventVideo in group_element['data']:
                         isPay = 'pay' in eventVideo and eventVideo['pay']
                         url = build_url({'mode': 'video', 'videoid': eventVideo['videoID'], 'isPay': isPay})
-                        li = xbmcgui.ListItem(eventVideo['title'], iconImage=base_image_url + eventVideo['images']['editorial'])
+                        # li = xbmcgui.ListItem(eventVideo['title'], iconImage=base_image_url + eventVideo['images']['editorial'])
+                        li = xbmcgui.ListItem(eventVideo['title'])
+                        li.setArt({'icon': base_image_url + eventVideo['images']['editorial']})
                         li.setProperty('fanart_image', base_image_url + eventVideo['images']['editorial'])
                         li.setProperty('IsPlayable', 'true')
                         li.setInfo('video', {})
