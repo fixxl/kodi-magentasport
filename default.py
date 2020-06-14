@@ -380,7 +380,7 @@ def getvideo():
     auth = xmlroot.find('token').get('auth')
 
     listitem = xbmcgui.ListItem(path=playlisturl + "?hdnea=" + auth)
-    listitem.setProperty('inputstreamaddon', 'inputstream.adaptive')
+    listitem.setProperty('inputstream', 'inputstream.adaptive')
     listitem.setProperty('inputstream.adaptive.manifest_type', 'hls')
     xbmcplugin.setResolvedUrl(_addon_handler, True, listitem)
 
